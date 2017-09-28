@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+		<title></title>
+		<style>
+			#box1{
+				transform: translate(120px,400px);
+			}
+		</style>
+	</head>
+	<body>
+		<h2><a href="index.html">返回到首页</a></h2>
+		<h2><a href="index1.html">返回到上一页</a></h2>
+		
+		
+		<div id="box">
+			<input type="button" id="btn1" value="获取当前设备加速度"/>
+			<input type="button" id="btn2" value="检测设备实时加速度"/>
+			<input type="button" id="btn3" value="清除"/>
+			
+		</div>
+		<div id="sp1"></div>
+		<div id="sp2"></div>
+		
+		
+		<div id="box1"><h2><a href="index2.html">进入下一页</a></h2></div>
+		
+	</body>
+	 <script type="text/javascript" src="cordova.js"></script>
+</html>
+<script>
+	var oBtn1 = document.querySelector("#btn1");
+	var oSp1 = document.querySelector("#sp1");
+	var oBtn2 = document.querySelector("#btn2");
+	var oSp2 = document.querySelector("#sp2");
+	var oBtn3 = document.querySelector("#btn3");
+	
+	
+	oBtn1.addEventListener("touchstart",function(){
+		navigator.accelerometer.getCurrentAcceleration(function(){
+			oSp1.innerHTML="x方向"+acceleration.x.toFixed(2)+"y方向"+acceleration.y.toFixed(2)+"z方向"+acceleration.z.toFixed(2);
+		},function(){
+			oSp1.innerHTML="获取失败";
+		})
+	},false)
+	
+	oBtn2.addEventListener("touchstart",function(){
+		var watchID = navigator.accelerometer.watchAcceleration(function(){
+			oSp2.style.color="red";
+			oSp2.innerHTML=`x方向${ acceleration.x.toFixed(2)},y方向${ acceleration.y.toFixed(2)},z方向${ acceleration.z.toFixed(2)}`
+		},function(){
+					oSp2.innerHTML="获取失败"
+				},
+				{frequency: 3000});
+	},false)
+	
+	
+	oBtn3.addEventListener("touchstart",function(){
+		navigator.accelerometer.clearWatch(watchID);
+	},false)
+	
+	
+</script>
